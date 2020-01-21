@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- DB schema will be updated if needed -->
+        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">123</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/less4?characterEncoding=UTF-8</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+
+        <mapping class="ru.kogut.model.dao.ProductDAO"/>
+        <mapping class="ru.kogut.model.dao.CategoryDAO"/>
+        <mapping class="ru.kogut.model.dao.OrderDAO"/>
+        <mapping class="ru.kogut.model.dao.OrderTabDAO"/>
+
+    </session-factory>
+</hibernate-configuration>
