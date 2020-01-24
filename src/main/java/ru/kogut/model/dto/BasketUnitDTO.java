@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * @author S.Kogut on 21.01.2020
@@ -12,7 +13,9 @@ import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
-public class OrderTabDTO implements Serializable {
+public class BasketUnitDTO implements Serializable {
+
+    private String id = UUID.randomUUID().toString();
 
     private ProductDTO product;
 

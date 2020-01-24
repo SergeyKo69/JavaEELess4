@@ -2,6 +2,7 @@ package ru.kogut.model.dao;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -15,7 +16,8 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class OrderDAO extends AbstractDAO {
 

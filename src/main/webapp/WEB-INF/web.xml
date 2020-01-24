@@ -3,7 +3,22 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>Less4</display-name>
+
+  <context-param>
+    <param-name>jdbcConnectionString</param-name>
+    <param-value>jdbc:mysql://localhost:3306/less4?useSSL=false&amp;useUnicode=yes&amp;characterEncoding=UTF-8&amp;characterSetResults=UTF-8&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Europe/Moscow</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>dbUsername</param-name>
+    <param-value>root</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>dbPassword</param-name>
+    <param-value>123</param-value>
+  </context-param>
 
   <servlet>
     <servlet-name>faces-servlet</servlet-name>

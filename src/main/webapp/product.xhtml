@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>eCommerce - Товар</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic%7CPT+Gudea:400,700,400italic%7CPT+Oswald:400,700,300'
+          rel='stylesheet' id="googlefont"/>
+
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/revslider.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/responsive.css"/>
+
+    </h:head>
+<h:body>
+    <h:form>
+        <div id="wrapper">
+            <header id="header" class="header2">
+                <ui:include src="common/header.xhtml"/>
+            </header>
+            <br/>
+            <section id="content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="row">
+
+                                <div class="col-md-6 col-sm-12 col-xs-12 product-viewer clearfix">
+                                    <div id="product-image-container">
+                                        <figure><h:graphicImage id="product-image" value="#{catalogController.selectedProduct.pathTitlePicture}"/>
+                                            <figcaption class="item-price-container">
+                                                <span class="item-price">#{catalogController.selectedProduct.price}&#8381;</span>
+                                            </figcaption>
+                                        </figure>
+                                    </div><!-- product-image-container -->
+                                </div><!-- End .col-md-6 -->
+
+                                <div class="col-md-6 col-sm-12 col-xs-12 product">
+                                    <div class="lg-margin visible-sm visible-xs"></div><!-- Space -->
+                                    <h1 class="product-name">#{catalogController.selectedProduct.title}</h1>
+                                    <ul class="product-list">
+                                        <li><span>Доступность:</span>На складе</li>
+                                    </ul>
+                                    <hr/>
+                                    <h:commandLink action="#{basketController.add(catalogController.selectedProduct, 1)}"
+                                                   styleClass="item-add-btn item-add-btn">
+                                        <span class="icon-cart-text">Добавить в корзину</span>
+                                        <f:ajax event="keyup" render="pageForm"/>
+                                    </h:commandLink>
+                                    <div class="md-margin"></div><!-- Space -->
+                                </div><!-- End .col-md-6 -->
+                            </div><!-- End .row -->
+
+                            <div class="lg-margin2x"></div><!-- End .space -->
+
+                            <div class="row">
+                                <div class="col-md-9 col-sm-12 col-xs-12">
+
+                                    <div class="tab-container left product-detail-tab clearfix">
+                                        <ul class="nav-tabs">
+                                            <li class="active"><a href="#description" data-toggle="tab">Описание</a></li>
+                                        </ul>
+                                        <div class="tab-content clearfix">
+                                            <div class="tab-pane active" id="description">
+                                                <p>Харатеристики:</p>
+                                                <ul class="product-details-list">
+                                                    #{catalogController.selectedProduct.fullDescription}
+                                                </ul>
+                                            </div><!-- End .tab-pane -->
+                                        </div><!-- End .tab-content -->
+                                    </div><!-- End .tab-container -->
+                                    <div class="lg-margin visible-xs"></div>
+                                </div><!-- End .col-md-9 -->
+                                <div class="lg-margin2x visible-sm visible-xs"></div><!-- Space -->
+                            </div><!-- End .row -->
+                            <div class="lg-margin2x"></div><!-- Space -->
+                        </div><!-- End .col-md-12 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+
+            </section><!-- End #content -->
+
+            <ui:include src="./common/footer.xhtml"/>
+        </div>
+    </h:form>
+
+</h:body>
+</html>

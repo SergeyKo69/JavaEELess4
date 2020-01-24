@@ -13,12 +13,14 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class CategoryDTO implements Serializable {
 
+    private String id;
+
     private String title;
 
     private String description;
 
     @Override
     public String toString() {
-        return title;
+        return id;
     }
 }

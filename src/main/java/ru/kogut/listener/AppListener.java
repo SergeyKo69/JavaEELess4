@@ -1,5 +1,6 @@
 package ru.kogut.listener;
 
+import lombok.NoArgsConstructor;
 import ru.kogut.model.dao.CategoryDAO;
 import ru.kogut.model.dao.ProductDAO;
 import ru.kogut.service.CategoryService;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
  */
 
 @WebListener
+@NoArgsConstructor
 public class AppListener implements ServletContextListener {
 
     @Inject
@@ -26,7 +28,7 @@ public class AppListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        initProducts();
+//        initProducts();
     }
 
     public void initProducts() {
@@ -38,6 +40,7 @@ public class AppListener implements ServletContextListener {
             categoryDAO.setId("1");
             categoryDAO.setTitle("Мобильные телефоны");
             categoryDAO.setDescription("В этом разделе расположены мобильные телефоны");
+            categoryService.saveOrUpdate(categoryDAO);
         }
 
         //Create products.
@@ -65,6 +68,7 @@ public class AppListener implements ServletContextListener {
                     "</ul>");
             product1.setPathTitlePicture("images/mobile/galaxyA50.jpg");
             product1.setPrice(new BigDecimal(15890));
+            productService.saveOrUpdate(product1);
         }
 
         ProductDAO product2;
@@ -88,6 +92,7 @@ public class AppListener implements ServletContextListener {
                     "</ul>");
             product2.setPathTitlePicture("images/mobile/iPhone8.jpg");
             product2.setPrice(new BigDecimal(31750));
+            productService.saveOrUpdate(product2);
         }
 
         ProductDAO product3;
@@ -111,6 +116,7 @@ public class AppListener implements ServletContextListener {
                     "</ul>");
             product3.setPathTitlePicture("images/mobile/iPhone11.jpg");
             product3.setPrice(new BigDecimal(72900));
+            productService.saveOrUpdate(product3);
         }
 
         ProductDAO product4;
@@ -136,6 +142,7 @@ public class AppListener implements ServletContextListener {
                     "</ul>");
             product4.setPathTitlePicture("images/mobile/iPhoneXr.jpg");
             product4.setPrice(new BigDecimal(42050));
+            productService.saveOrUpdate(product4);
         }
 
         ProductDAO product5;
@@ -161,6 +168,7 @@ public class AppListener implements ServletContextListener {
                     "</ul>");
             product5.setPathTitlePicture("images/mobile/iPhoneXs.jpg");
             product5.setPrice(new BigDecimal(47780));
+            productService.saveOrUpdate(product5);
         }
 
         ProductDAO product6;
@@ -187,6 +195,7 @@ public class AppListener implements ServletContextListener {
                     "</ul>");
             product6.setPathTitlePicture("images/mobile/mi9Lite6.jpg");
             product6.setPrice(new BigDecimal(19990));
+            productService.saveOrUpdate(product6);
         }
 
         ProductDAO product7;
@@ -213,6 +222,7 @@ public class AppListener implements ServletContextListener {
                     "</ul>");
             product7.setPathTitlePicture("images/mobile/miA34.jpg");
             product7.setPrice(new BigDecimal(15990));
+            productService.saveOrUpdate(product7);
         }
 
         ProductDAO product8;
@@ -239,6 +249,7 @@ public class AppListener implements ServletContextListener {
                     "</ul>");
             product8.setPathTitlePicture("images/mobile/miNote10.png");
             product8.setPrice(new BigDecimal(36990));
+            productService.saveOrUpdate(product8);
         }
 
         ProductDAO product9;
@@ -265,6 +276,7 @@ public class AppListener implements ServletContextListener {
                     "</ul>");
             product9.setPathTitlePicture("images/mobile/redmi8.png");
             product9.setPrice(new BigDecimal(17990));
+            productService.saveOrUpdate(product9);
         }
 
         ProductDAO product10;
@@ -291,7 +303,7 @@ public class AppListener implements ServletContextListener {
                     "</ul>");
             product10.setPathTitlePicture("images/mobile/redmiNote.jpg");
             product10.setPrice(new BigDecimal(17990));
+            productService.saveOrUpdate(product10);
         }
     }
-
 }

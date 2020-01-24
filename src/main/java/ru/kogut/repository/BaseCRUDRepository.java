@@ -8,11 +8,13 @@ import java.util.List;
 
 public interface BaseCRUDRepository<K, T> {
 
-    T saveOrUpdate(T t);
+    void saveOrUpdate(T t);
 
     T findById(K k);
 
     List<T> findAll();
+
+    List<T> findByName(String title);
 
     void delete(T t);
 

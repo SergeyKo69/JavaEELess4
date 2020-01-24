@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "product")
 @EqualsAndHashCode(callSuper = true)
+@NamedQuery(name = "product.findByName", query = "SELECT p FROM ProductDAO p WHERE p.title LIKE '%:title%'")
 public class ProductDAO extends AbstractDAO {
 
     @ManyToOne
@@ -25,7 +26,7 @@ public class ProductDAO extends AbstractDAO {
     @Column(name = "shortDescription")
     private String shortDescription;
 
-    @Column(name = "fullDescription")
+    @Column(name = "fullDescription", length = 1000)
     private String fullDescription;
 
     @Column(name = "price")

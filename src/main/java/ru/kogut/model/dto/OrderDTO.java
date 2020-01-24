@@ -2,7 +2,6 @@ package ru.kogut.model.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.kogut.model.dao.OrderTabDAO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,6 +15,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class OrderDTO implements Serializable {
+
+    private String id;
 
     private String number;
 
