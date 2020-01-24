@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>eCommerce - Корзина</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic%7CPT+Gudea:400,700,400italic%7CPT+Oswald:400,700,300'
+          rel='stylesheet' id="googlefont"/>
+
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/revslider.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/responsive.css"/>
+
+    <style id="custom-style">
+
+    </style>
+</h:head>
+<h:body>
+    <h:form>
+        <div id="wrapper">
+            <header id="header" class="header2">
+                <ui:include src="common/header.xhtml"/>
+            </header>
+            <section id="content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <header class="content-title">
+                                <h1 class="title">Корзина</h1>
+                                <p class="title-desc">Необходимо подтвердить покупку</p>
+                            </header>
+                            <div class="xs-margin"></div><!-- space -->
+                            <div class="row">
+
+                                <div class="col-md-12 table-responsive">
+                                    <h:dataTable value="#{basketController.basket.basketList}" var="item"
+                                        styleClass="table cart-table">
+                                        <h:column headerClass="table-title">
+                                            <f:facet name="header">Наименование</f:facet>
+                                            #{item.product.title}
+                                        </h:column>
+                                        <h:column headerClass="table-title">
+                                            <f:facet name="header">Цена</f:facet>
+                                            #{item.product.price}
+                                        </h:column>
+                                        <h:column headerClass="table-title">
+                                            <f:facet name="header">Количество</f:facet>
+                                            #{item.quantity}
+                                        </h:column>
+                                        <h:column headerClass="table-title">
+                                            <f:facet name="header">Сумма</f:facet>
+                                            #{item.amount}
+                                        </h:column>
+                                        <h:column headerClass="table-title">
+                                            <f:facet name="header">X</f:facet>
+                                            <h:commandLink action="#{basketController.remove(item)}"
+                                                           styleClass="close-button">
+                                                <i class="fa fa-times"/>
+                                            </h:commandLink>
+                                        </h:column>
+                                    </h:dataTable>
+                                </div><!-- End .col-md-12 -->
+
+                            </div><!-- End .row -->
+                            <div class="lg-margin"></div><!-- End .space -->
+
+                            <div class="row">
+
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+
+                                    <table class="table total-table">
+                                        <tbody>
+                                        <tr>
+                                            <td class="total-table-title">Итог:</td>
+                                            <td>#{basketController.basket.totalAmount}&#8381;</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="total-table-title">Доставка:</td>
+                                            <td>0.00&#8381;</td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <td>Всего:</td>
+                                            <td>#{basketController.basket.totalAmount}&#8381;</td>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                    <div class="md-margin"></div><!-- End .space -->
+                                    <h:link styleClass="btn" value="Продолжить покупки" outcome="catalog"/>
+                                    <h:commandLink styleClass="btn btn-custom" value="Купить" action="#{basketController.confirmBuy}"/>
+                                </div><!-- End .col-md-4 -->
+                            </div><!-- End .row -->
+                            <div class="md-margin2x"></div><!-- Space -->
+
+                        </div><!-- End .col-md-12 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+
+            </section><!-- End #content -->
+            <ui:include src="./common/footer.xhtml"/>
+        </div><!-- End #wrapper -->
+    </h:form>
+</h:body>
+</html>

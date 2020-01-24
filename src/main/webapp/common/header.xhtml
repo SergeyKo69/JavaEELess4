@@ -1,0 +1,106 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+
+    <div id="inner-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-sm-5 col-xs-12 logo-container">
+                    <h1 class="logo clearfix">
+                        <span>Responsive eCommerce Template</span>
+                        <h:commandLink action="#{mainController.doIndex()}"><h:graphicImage
+                                value="./images/logo2.png"
+                                alt="E-Commerce" width="188"
+                                height="67"/></h:commandLink>
+                    </h1>
+                </div><!-- End .col-md-5 -->
+                <div class="col-md-7 col-sm-7 col-xs-12 header-inner-right">
+
+                    <div class="header-inner-right-wrapper clearfix">
+                        <div class="dropdown-cart-menu-container pull-right">
+                            <div class="btn-group dropdown-cart">
+                                <button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown">
+                                    <span class="cart-menu-icon"/>
+                                    #{basketController.quantityPosition} позиций <span
+                                        class="drop-price">-  #{basketController.basket.totalAmount}&#8381;</span>
+                                </button>
+
+                                <div class="dropdown-menu dropdown-cart-menu pull-right clearfix" role="menu">
+                                    <p class="dropdown-cart-description">Позиции в корзине.</p>
+                                    <ul class="dropdown-cart-product-list">
+                                        <h:dataTable value="#{basketController.basket.basketList}" var="item" id="tbl">
+                                            <h:column>
+                                                <li class="item clearfix">
+                                                    <div class="dropdown-cart-details">
+                                                        <figure>
+                                                            <h:graphicImage value="#{item.product.pathTitlePicture}"
+                                                                            alt="#{item.product.title}"/>
+                                                        </figure>
+                                                        <p class="item-name">
+                                                            <h:outputText value="#{item.product.title}"/>
+                                                        </p>
+                                                        <p>
+                                                            #{item.quantity}x
+                                                            <span class="item-price">${item.product.price}</span>
+                                                        </p>
+                                                    </div><!-- End .dropdown-cart-details -->
+                                                </li>
+                                            </h:column>
+
+                                        </h:dataTable>
+                                    </ul>
+
+                                    <ul class="dropdown-cart-total">
+                                        <li><span
+                                                class="dropdown-cart-total-title">Всего:</span>#{basketController.basket.totalAmount}
+                                            <span>&#8381;</span></li>
+                                    </ul><!-- .dropdown-cart-total -->
+                                    <div class="dropdown-cart-action">
+                                        <p>
+                                            <h:commandLink action="#{mainController.doBasket}" styleClass="btn btn-custom-2 btn-block" value="В корзину"/>
+                                        </p>
+                                    </div><!-- End .dropdown-cart-action -->
+                                </div><!-- End .dropdown-cart -->
+                            </div><!-- End .btn-group -->
+                        </div><!-- End .dropdown-cart-menu-container -->
+                    </div><!-- End .header-inner-right-wrapper -->
+
+                </div><!-- End .col-md-7 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+
+        <div id="main-nav-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 clearfix">
+
+                        <nav id="main-nav">
+                            <div id="responsive-nav">
+                                <div id="responsive-nav-button">
+                                    <span id="responsive-nav-button-icon">Меню</span>
+                                </div><!-- responsive-nav-button -->
+                            </div>
+                            <ul class="menu clearfix">
+                                <li>
+                                    <h:link value="Главная" outcome="index"/>
+                                </li>
+                                <li>
+                                    <h:link value="Каталог" outcome="catalog"/>
+                                </li>
+                                <li>
+                                    <h:link value="О нас" outcome="about"/>
+                                </li>
+                                <li>
+                                    <h:link value="Административная панель" outcome="administrative"/>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div><!-- End .col-md-12 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+        </div><!-- End #nav -->
+    </div>
+</ui:composition>
+
