@@ -1,10 +1,11 @@
 package ru.kogut.converter;
 
 import org.modelmapper.ModelMapper;
-import ru.kogut.model.dao.CategoryDAO;
 import ru.kogut.model.dto.CategoryDTO;
 import ru.kogut.service.CategoryService;
+import ru.kogut.service.interfaces.CategoryInt;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -21,8 +22,8 @@ import javax.inject.Named;
 @ApplicationScoped
 public class Converter {
 
-    @Inject
-    private CategoryService categoryService;
+    @EJB
+    private CategoryInt categoryService;
 
     public javax.faces.convert.Converter getCategoryConverter(){
 

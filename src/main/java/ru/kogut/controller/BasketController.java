@@ -2,17 +2,22 @@ package ru.kogut.controller;
 
 import lombok.Data;
 import org.modelmapper.ModelMapper;
-import ru.kogut.model.dao.OrderDAO;
-import ru.kogut.model.dao.OrderTabDAO;
+import ru.kogut.log.Logger;
+import ru.kogut.model.dao.OrderEntity;
+import ru.kogut.model.dao.OrderTabEntity;
 import ru.kogut.model.dto.BasketDTO;
 import ru.kogut.model.dto.BasketUnitDTO;
 import ru.kogut.model.dto.ProductDTO;
 import ru.kogut.service.OrderService;
 import ru.kogut.service.ProductService;
+import ru.kogut.service.interfaces.OrderInt;
+import ru.kogut.service.interfaces.ProductInt;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -30,20 +35,22 @@ public class BasketController implements Serializable {
     private BasketDTO basket;
     private ModelMapper modelMapper;
 
-    @Inject
-    private OrderService orderService;
+    @EJB
+    private OrderInt orderService;
 
-    @Inject
-    private ProductService productService;
+    @EJB
+    private ProductInt productService;
 
     public BasketController() {
         this.basket = new BasketDTO();
     }
 
+    @Interceptors({Logger.class})
     public Integer getQuantityPosition() {
         return basket.getBasketList().size();
     }
 
+    @Interceptors({Logger.class})
     public void add(ProductDTO product, Integer quantity) {
         BasketUnitDTO basketUnit = basket.getBasketList()
                 .stream()
@@ -65,6 +72,7 @@ public class BasketController implements Serializable {
         recount();
     }
 
+    @Interceptors({Logger.class})
     public void remove(BasketUnitDTO unit) {
         if (unit.getQuantity().compareTo(BigDecimal.ONE) == 0) {
             basket.getBasketList().remove(unit);
@@ -75,6 +83,7 @@ public class BasketController implements Serializable {
         recount();
     }
 
+    @Interceptors({Logger.class})
     public void recount() {
         basket.setTotalAmount(BigDecimal.ZERO);
         basket.getBasketList().forEach(u->{
@@ -82,15 +91,16 @@ public class BasketController implements Serializable {
         });
     }
 
+    @Interceptors({Logger.class})
     public String confirmBuy() {
-        OrderDAO order = new OrderDAO();
+        OrderEntity order = new OrderEntity();
         order.setNumber(UUID.randomUUID().toString());
         order.setDate(LocalDateTime.now());
         order.setComment("");
         order.setOrderTabList(new ArrayList<>());
         order.setTotalAmount(basket.getTotalAmount());
         for (BasketUnitDTO rowBasket : basket.getBasketList()) {
-            OrderTabDAO tab = new OrderTabDAO();
+            OrderTabEntity tab = new OrderTabEntity();
             tab.setOrder(order);
             tab.setProduct(productService.findById(rowBasket.getProduct().getId()));
             tab.setPrice(rowBasket.getPrice());

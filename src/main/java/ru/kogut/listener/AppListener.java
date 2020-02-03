@@ -1,11 +1,14 @@
 package ru.kogut.listener;
 
 import lombok.NoArgsConstructor;
-import ru.kogut.model.dao.CategoryDAO;
-import ru.kogut.model.dao.ProductDAO;
+import ru.kogut.model.dao.CategoryEntity;
+import ru.kogut.model.dao.ProductEntity;
 import ru.kogut.service.CategoryService;
 import ru.kogut.service.ProductService;
+import ru.kogut.service.interfaces.CategoryInt;
+import ru.kogut.service.interfaces.ProductInt;
 
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -20,11 +23,11 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class AppListener implements ServletContextListener {
 
-    @Inject
-    private CategoryService categoryService;
+    @EJB
+    private CategoryInt categoryService;
 
-    @Inject
-    private ProductService productService;
+    @EJB
+    private ProductInt productService;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -33,10 +36,10 @@ public class AppListener implements ServletContextListener {
 
     public void initProducts() {
         //Create category.
-        CategoryDAO categoryDAO;
+        CategoryEntity categoryDAO;
         categoryDAO = categoryService.findById("1");
         if (categoryDAO == null) {
-            categoryDAO = new CategoryDAO();
+            categoryDAO = new CategoryEntity();
             categoryDAO.setId("1");
             categoryDAO.setTitle("Мобильные телефоны");
             categoryDAO.setDescription("В этом разделе расположены мобильные телефоны");
@@ -44,9 +47,9 @@ public class AppListener implements ServletContextListener {
         }
 
         //Create products.
-        ProductDAO product1;
+        ProductEntity product1;
         if (productService.findById("1") == null) {
-            product1 = new ProductDAO();
+            product1 = new ProductEntity();
             product1.setId("1");
             product1.setCategory(categoryDAO);
             product1.setShortDescription("<ul type=\"disc\">" +
@@ -71,9 +74,9 @@ public class AppListener implements ServletContextListener {
             productService.saveOrUpdate(product1);
         }
 
-        ProductDAO product2;
+        ProductEntity product2;
         if (productService.findById("2") == null) {
-            product2 = new ProductDAO();
+            product2 = new ProductEntity();
             product2.setCategory(categoryDAO);
             product2.setId("2");
             product2.setShortDescription("<ul type=\"disc\">" +
@@ -95,9 +98,9 @@ public class AppListener implements ServletContextListener {
             productService.saveOrUpdate(product2);
         }
 
-        ProductDAO product3;
+        ProductEntity product3;
         if (productService.findById("3") == null) {
-            product3 = new ProductDAO();
+            product3 = new ProductEntity();
             product3.setCategory(categoryDAO);
             product3.setId("3");
             product3.setShortDescription("<ul type=\"disc\">" +
@@ -119,9 +122,9 @@ public class AppListener implements ServletContextListener {
             productService.saveOrUpdate(product3);
         }
 
-        ProductDAO product4;
+        ProductEntity product4;
         if (productService.findById("4") == null) {
-            product4 = new ProductDAO();
+            product4 = new ProductEntity();
             product4.setCategory(categoryDAO);
             product4.setId("4");
             product4.setShortDescription("<ul type=\"disc\">" +
@@ -145,9 +148,9 @@ public class AppListener implements ServletContextListener {
             productService.saveOrUpdate(product4);
         }
 
-        ProductDAO product5;
+        ProductEntity product5;
         if (productService.findById("5") == null) {
-            product5 = new ProductDAO();
+            product5 = new ProductEntity();
             product5.setCategory(categoryDAO);
             product5.setId("5");
             product5.setShortDescription("<ul type=\"disc\">" +
@@ -171,9 +174,9 @@ public class AppListener implements ServletContextListener {
             productService.saveOrUpdate(product5);
         }
 
-        ProductDAO product6;
+        ProductEntity product6;
         if (productService.findById("6") == null) {
-            product6 = new ProductDAO();
+            product6 = new ProductEntity();
             product6.setCategory(categoryDAO);
             product6.setId("6");
             product6.setShortDescription("<ul type=\"disc\">" +
@@ -198,9 +201,9 @@ public class AppListener implements ServletContextListener {
             productService.saveOrUpdate(product6);
         }
 
-        ProductDAO product7;
+        ProductEntity product7;
         if (productService.findById("7") == null) {
-            product7 = new ProductDAO();
+            product7 = new ProductEntity();
             product7.setCategory(categoryDAO);
             product7.setId("7");
             product7.setShortDescription("<ul type=\"disc\">" +
@@ -225,9 +228,9 @@ public class AppListener implements ServletContextListener {
             productService.saveOrUpdate(product7);
         }
 
-        ProductDAO product8;
+        ProductEntity product8;
         if (productService.findById("8") == null) {
-            product8 = new ProductDAO();
+            product8 = new ProductEntity();
             product8.setCategory(categoryDAO);
             product8.setId("8");
             product8.setShortDescription("<ul type=\"disc\">" +
@@ -252,9 +255,9 @@ public class AppListener implements ServletContextListener {
             productService.saveOrUpdate(product8);
         }
 
-        ProductDAO product9;
+        ProductEntity product9;
         if (productService.findById("9") == null) {
-            product9 = new ProductDAO();
+            product9 = new ProductEntity();
             product9.setCategory(categoryDAO);
             product9.setId("9");
             product9.setShortDescription("<ul type=\"disc\">" +
@@ -279,9 +282,9 @@ public class AppListener implements ServletContextListener {
             productService.saveOrUpdate(product9);
         }
 
-        ProductDAO product10;
+        ProductEntity product10;
         if (productService.findById("10") == null) {
-            product10 = new ProductDAO();
+            product10 = new ProductEntity();
             product10.setCategory(categoryDAO);
             product10.setId("10");
             product10.setShortDescription("<ul type=\"disc\">" +

@@ -14,11 +14,10 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "product")
 @EqualsAndHashCode(callSuper = true)
-@NamedQuery(name = "product.findByName", query = "SELECT p FROM ProductDAO p WHERE p.title LIKE '%:title%'")
-public class ProductDAO extends AbstractDAO {
+public class ProductEntity extends AbstractEntity {
 
     @ManyToOne
-    private CategoryDAO category;
+    private CategoryEntity category;
 
     @Column(name = "title", nullable = false)
     private String title;

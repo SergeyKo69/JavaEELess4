@@ -1,8 +1,11 @@
 package ru.kogut.service;
 
-import ru.kogut.model.dao.OrderDAO;
+import ru.kogut.model.dao.OrderEntity;
 import ru.kogut.repository.BaseCRUDRepository;
+import ru.kogut.service.interfaces.OrderInt;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -15,17 +18,16 @@ import java.util.List;
  * @author S.Kogut on 21.01.2020
  */
 
-@Named
-@Transactional
-@ApplicationScoped
-public class OrderService implements BaseCRUDRepository<String, OrderDAO>, Serializable {
+@Stateless
+@TransactionAttribute
+public class OrderService implements OrderInt, Serializable {
 
     @PersistenceContext(unitName = "ds")
     protected EntityManager em;
 
     @Override
-    public void saveOrUpdate(OrderDAO orderDAO) {
-        OrderDAO order = em.find(OrderDAO.class, orderDAO.getId());
+    public void saveOrUpdate(OrderEntity orderDAO) {
+        OrderEntity order = em.find(OrderEntity.class, orderDAO.getId());
         if (order == null) {
             em.persist(orderDAO);
         } else {
@@ -35,31 +37,31 @@ public class OrderService implements BaseCRUDRepository<String, OrderDAO>, Seria
     }
 
     @Override
-    public OrderDAO findById(String id) {
-        return em.find(OrderDAO.class, id);
+    public OrderEntity findById(String id) {
+        return em.find(OrderEntity.class, id);
     }
 
     @Override
-    public List<OrderDAO> findAll() {
-        return em.createQuery("FROM OrderDAO", OrderDAO.class).getResultList();
+    public List<OrderEntity> findAll() {
+        return em.createQuery("FROM OrderEntity", OrderEntity.class).getResultList();
     }
 
     //Тут пусть будет по комментарию
     @Override
-    public List<OrderDAO> findByName(String title) {
-        return em.createQuery("from OrderDAO where comment LIKE ?1", OrderDAO.class)
+    public List<OrderEntity> findByName(String title) {
+        return em.createQuery("from OrderEntity where comment LIKE ?1", OrderEntity.class)
                 .setParameter(1, title).getResultList();
     }
 
     @Override
-    public void delete(OrderDAO orderDAO) {
-        OrderDAO order = em.find(OrderDAO.class, orderDAO.getId());
+    public void delete(OrderEntity orderDAO) {
+        OrderEntity order = em.find(OrderEntity.class, orderDAO.getId());
         if (order != null) {
             em.remove(order);
         }
     }
 
-    public void mapOrderDAO(OrderDAO in, OrderDAO out) {
+    public void mapOrderDAO(OrderEntity in, OrderEntity out) {
         in.setNumber(out.getNumber());
         in.setDate(out.getDate());
         in.setTotalAmount(out.getTotalAmount());

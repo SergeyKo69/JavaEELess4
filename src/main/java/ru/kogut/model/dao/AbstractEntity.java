@@ -13,7 +13,7 @@ import java.util.UUID;
  */
 @Data
 @MappedSuperclass
-public class AbstractDAO {
+public class AbstractEntity {
 
     @Id
     @Identifier

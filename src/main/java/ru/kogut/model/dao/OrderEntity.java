@@ -19,7 +19,7 @@ import java.util.List;
 @Table(name = "orders")
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class OrderDAO extends AbstractDAO {
+public class OrderEntity extends AbstractEntity {
 
     @Column(name = "number", nullable = false)
     private String number;
@@ -35,6 +35,6 @@ public class OrderDAO extends AbstractDAO {
 
     @NotNull
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<OrderTabDAO> orderTabList;
+    private List<OrderTabEntity> orderTabList;
 
 }
