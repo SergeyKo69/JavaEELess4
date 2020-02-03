@@ -17,13 +17,13 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "orderTab")
 @EqualsAndHashCode(callSuper = true)
-public class OrderTabDAO extends AbstractDAO {
+public class OrderTabEntity extends AbstractEntity {
 
     @ManyToOne
-    private OrderDAO order;
+    private OrderEntity order;
 
     @ManyToOne
-    private ProductDAO product;
+    private ProductEntity product;
 
     @Column(name = "quantity", nullable = false)
     private BigDecimal quantity;

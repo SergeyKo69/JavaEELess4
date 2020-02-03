@@ -1,17 +1,18 @@
 package ru.kogut.controller;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
-import ru.kogut.model.dao.ProductDAO;
+import ru.kogut.log.Logger;
+import ru.kogut.model.dao.ProductEntity;
 import ru.kogut.model.dto.ProductDTO;
-import ru.kogut.service.CategoryService;
-import ru.kogut.service.ProductService;
+import ru.kogut.service.interfaces.CategoryInt;
+import ru.kogut.service.interfaces.ProductInt;
 
+import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,26 +22,27 @@ import java.util.List;
  */
 @Data
 @Named
-@ViewScoped
-@NoArgsConstructor
+@SessionScoped
 public class CatalogController implements Serializable {
 
-    private ProductService productService;
-    private CategoryService categoryService;
+    @EJB
+    private ProductInt productService;
+
+    @EJB
+    private CategoryInt categoryService;
+
     private ModelMapper modelMapper;
     private ProductDTO selectedProduct;
     private List<ProductDTO> productList;
 
-    @Inject
-    public CatalogController(ProductService productService, CategoryService categoryService) {
-        this.productService = productService;
-        this.categoryService = categoryService;
+    public CatalogController() {
         this.modelMapper = new ModelMapper();
         this.selectedProduct = new ProductDTO();
     }
 
+    @Interceptors({Logger.class})
     public void preloadCatalog(ComponentSystemEvent componentSystemEvent) {
-        List<ProductDAO> productDAOList = productService.findAll();
+        List<ProductEntity> productDAOList = productService.findAll();
         this.productList = new ArrayList<>();
         productDAOList.forEach(p->{
             this.productList.add(modelMapper.map(
@@ -49,10 +51,12 @@ public class CatalogController implements Serializable {
         });
     }
 
+    @Interceptors({Logger.class})
     public List<ProductDTO> getAllProducts() {
         return this.productList;
     }
 
+    @Interceptors({Logger.class})
     public String getProduct(String id) {
         this.selectedProduct = modelMapper.map(productService.findById(id), ProductDTO.class);
         return "product.xhtml";

@@ -1,9 +1,11 @@
 package ru.kogut.service;
 
-import ru.kogut.model.dao.CategoryDAO;
-import ru.kogut.model.dao.ProductDAO;
+import ru.kogut.model.dao.CategoryEntity;
 import ru.kogut.repository.BaseCRUDRepository;
+import ru.kogut.service.interfaces.CategoryInt;
 
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -20,17 +22,16 @@ import java.util.List;
  * @author S.Kogut on 21.01.2020
  */
 
-@Named
-@Transactional
-@ApplicationScoped
-public class CategoryService implements BaseCRUDRepository<String, CategoryDAO>, Serializable {
+@Stateless
+@TransactionAttribute
+public class CategoryService implements CategoryInt, Serializable {
 
     @PersistenceContext(unitName = "ds")
     protected EntityManager em;
 
     @Override
-    public void saveOrUpdate(CategoryDAO categoryDAO) {
-        CategoryDAO category = em.find(CategoryDAO.class, categoryDAO.getId());
+    public void saveOrUpdate(CategoryEntity categoryDAO) {
+        CategoryEntity category = em.find(CategoryEntity.class, categoryDAO.getId());
         if (category == null) {
             em.persist(categoryDAO);
         } else {
@@ -40,35 +41,35 @@ public class CategoryService implements BaseCRUDRepository<String, CategoryDAO>,
     }
 
     @Override
-    public CategoryDAO findById(String id) {
-        return em.find(CategoryDAO.class, id);
+    public CategoryEntity findById(String id) {
+        return em.find(CategoryEntity.class, id);
     }
 
     @Override
-    public List<CategoryDAO> findAll() {
+    public List<CategoryEntity> findAll() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<CategoryDAO> query  = cb.createQuery(CategoryDAO.class);
-        Root<CategoryDAO> c = query.from(CategoryDAO.class);
+        CriteriaQuery<CategoryEntity> query  = cb.createQuery(CategoryEntity.class);
+        Root<CategoryEntity> c = query.from(CategoryEntity.class);
         query.select(c);
-        TypedQuery<CategoryDAO> q = em.createQuery(query);
+        TypedQuery<CategoryEntity> q = em.createQuery(query);
         return q.getResultList();
     }
 
     @Override
-    public List<CategoryDAO> findByName(String title) {
-        return em.createQuery("from CategoryDAO where title like ?1", CategoryDAO.class)
+    public List<CategoryEntity> findByName(String title) {
+        return em.createQuery("from CategoryEntity where title like ?1", CategoryEntity.class)
                 .setParameter(1, title).getResultList();
     }
 
     @Override
-    public void delete(CategoryDAO categoryDAO) {
-        CategoryDAO category = em.find(CategoryDAO.class, categoryDAO.getId());
+    public void delete(CategoryEntity categoryDAO) {
+        CategoryEntity category = em.find(CategoryEntity.class, categoryDAO.getId());
         if (category != null) {
             em.remove(category);
         }
     }
 
-    public void mapCategoryDAO(CategoryDAO in, CategoryDAO out) {
+    public void mapCategoryDAO(CategoryEntity in, CategoryEntity out) {
         in.setTitle(out.getTitle());
         in.setDescription(out.getDescription());
     }

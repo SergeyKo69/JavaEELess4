@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "category")
 @EqualsAndHashCode(callSuper = true)
-public class CategoryDAO extends AbstractDAO {
+public class CategoryEntity extends AbstractEntity {
 
     @Column(name = "title", nullable = false)
     private String title;
