@@ -1,23 +1,17 @@
 package ru.kogut.service;
 
-import ru.kogut.model.dao.OrderEntity;
+import org.modelmapper.ModelMapper;
 import ru.kogut.model.dao.ProductEntity;
-import ru.kogut.repository.BaseCRUDRepository;
+import ru.kogut.model.dto.ProductDTO;
 import ru.kogut.service.interfaces.ProductInt;
+import ru.kogut.service.interfaces.ProductServiceInt;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author S.Kogut on 21.01.2020
@@ -25,57 +19,48 @@ import java.util.List;
 
 @Stateless
 @TransactionAttribute
-public class ProductService implements ProductInt, Serializable {
+public class ProductService implements ProductServiceInt,Serializable {
 
-    @PersistenceContext(unitName = "ds")
-    protected EntityManager em;
+    @EJB
+    private ProductInt productRepository;
+
+    private ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public void saveOrUpdate(ProductEntity productDAO) {
-        ProductEntity product = em.find(ProductEntity.class, productDAO.getId());
-        if (product == null) {
-            em.persist(productDAO);
-        } else {
-            mapProductDAO(product, productDAO);
-            em.merge(product);
-        }
+    public void saveOrUpdate(ProductDTO productDTO) {
+        productRepository.saveOrUpdate(modelMapper.map(productDTO, ProductEntity.class));
     }
 
     @Override
-    public ProductEntity findById(String id) {
-       return em.find(ProductEntity.class, id);
+    public ProductDTO findById(String s) {
+        ProductEntity product = productRepository.findById(s);
+        if (product == null) return null;
+        return modelMapper.map(product, ProductDTO.class);
     }
 
     @Override
-    public List<ProductEntity> findAll() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<ProductEntity> query  = cb.createQuery(ProductEntity.class);
-        Root<ProductEntity> c = query.from(ProductEntity.class);
-        query.select(c);
-        TypedQuery<ProductEntity> q = em.createQuery(query);
-        return q.getResultList();
+    public List<ProductDTO> findAll() {
+        return productRepository.findAll().stream()
+                .map(p-> modelMapper.map(p, ProductDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<ProductEntity> findByName(String title) {
-        return em.createQuery("from ProductEntity where title LIKE ?1", ProductEntity.class)
-                .setParameter(1, title).getResultList();
+    public List<ProductDTO> findByName(String title) {
+        return productRepository.findByName(title).stream()
+                .map(p-> modelMapper.map(p, ProductDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void delete(ProductEntity productDAO) {
-        ProductEntity product = em.find(ProductEntity.class, productDAO.getId());
-        if (product != null) {
-            em.remove(product);
-        }
+    public void delete(ProductDTO productDTO) {
+        productRepository.delete(modelMapper.map(productDTO, ProductEntity.class));
     }
 
-    public void mapProductDAO(ProductEntity in, ProductEntity out) {
-        in.setTitle(out.getTitle());
-        in.setCategory(out.getCategory());
-        in.setShortDescription(out.getShortDescription());
-        in.setFullDescription(out.getFullDescription());
-        in.setPrice(out.getPrice());
-        in.setPathTitlePicture(out.getPathTitlePicture());
+    @Override
+    public List<ProductDTO> findByCategoryId(String id) {
+        return productRepository.findByCategoryId(id).stream()
+                .map(c->modelMapper.map(c,ProductDTO.class))
+                .collect(Collectors.toList());
     }
 }

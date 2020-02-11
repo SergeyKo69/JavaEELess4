@@ -3,10 +3,9 @@ package ru.kogut.controller;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import ru.kogut.log.Logger;
-import ru.kogut.model.dao.ProductEntity;
 import ru.kogut.model.dto.ProductDTO;
-import ru.kogut.service.interfaces.CategoryInt;
-import ru.kogut.service.interfaces.ProductInt;
+import ru.kogut.service.interfaces.CategoryServiceInt;
+import ru.kogut.service.interfaces.ProductServiceInt;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -14,7 +13,6 @@ import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,10 +24,10 @@ import java.util.List;
 public class CatalogController implements Serializable {
 
     @EJB
-    private ProductInt productService;
+    private ProductServiceInt productService;
 
     @EJB
-    private CategoryInt categoryService;
+    private CategoryServiceInt categoryService;
 
     private ModelMapper modelMapper;
     private ProductDTO selectedProduct;
@@ -42,13 +40,7 @@ public class CatalogController implements Serializable {
 
     @Interceptors({Logger.class})
     public void preloadCatalog(ComponentSystemEvent componentSystemEvent) {
-        List<ProductEntity> productDAOList = productService.findAll();
-        this.productList = new ArrayList<>();
-        productDAOList.forEach(p->{
-            this.productList.add(modelMapper.map(
-                    p, ProductDTO.class
-            ));
-        });
+        this.productList = productService.findAll();
     }
 
     @Interceptors({Logger.class})

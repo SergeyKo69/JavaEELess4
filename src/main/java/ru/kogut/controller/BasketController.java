@@ -5,17 +5,16 @@ import org.modelmapper.ModelMapper;
 import ru.kogut.log.Logger;
 import ru.kogut.model.dao.OrderEntity;
 import ru.kogut.model.dao.OrderTabEntity;
+import ru.kogut.model.dao.ProductEntity;
 import ru.kogut.model.dto.BasketDTO;
 import ru.kogut.model.dto.BasketUnitDTO;
+import ru.kogut.model.dto.OrderDTO;
 import ru.kogut.model.dto.ProductDTO;
-import ru.kogut.service.OrderService;
-import ru.kogut.service.ProductService;
-import ru.kogut.service.interfaces.OrderInt;
-import ru.kogut.service.interfaces.ProductInt;
+import ru.kogut.service.interfaces.OrderServiceInt;
+import ru.kogut.service.interfaces.ProductServiceInt;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
@@ -36,13 +35,14 @@ public class BasketController implements Serializable {
     private ModelMapper modelMapper;
 
     @EJB
-    private OrderInt orderService;
+    private OrderServiceInt orderService;
 
     @EJB
-    private ProductInt productService;
+    private ProductServiceInt productService;
 
     public BasketController() {
         this.basket = new BasketDTO();
+        this.modelMapper = new ModelMapper();
     }
 
     @Interceptors({Logger.class})
@@ -102,13 +102,13 @@ public class BasketController implements Serializable {
         for (BasketUnitDTO rowBasket : basket.getBasketList()) {
             OrderTabEntity tab = new OrderTabEntity();
             tab.setOrder(order);
-            tab.setProduct(productService.findById(rowBasket.getProduct().getId()));
+            tab.setProduct(modelMapper.map(productService.findById(rowBasket.getProduct().getId()), ProductEntity.class));
             tab.setPrice(rowBasket.getPrice());
             tab.setQuantity(rowBasket.getQuantity());
             tab.setAmount(rowBasket.getAmount());
             order.getOrderTabList().add(tab);
         }
-        orderService.saveOrUpdate(order);
+        orderService.saveOrUpdate(modelMapper.map(order, OrderDTO.class));
         basket.getBasketList().clear();
         basket.setTotalAmount(BigDecimal.ZERO);
         return "order.xhtml";

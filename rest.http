@@ -1,0 +1,47 @@
+POST http://127.0.0.1:8080/Less4/api/v1/product/add
+Content-Type: application/json
+
+{
+  "id": "123456",
+  "title": "Test title rest",
+  "fullDescription": "Test full description rest",
+  "price": 1000
+}
+
+###
+
+PUT http://127.0.0.1:8080/Less4/api/v1/product/addCategory/123456/1
+Content-Type: text/html
+
+###
+
+GET http://127.0.0.1:8080/Less4/api/v1/product/findById/123456
+Content-Type: text/html
+
+###
+
+GET http://127.0.0.1:8080/Less4/api/v1/product/findByName/Test title rest
+Content-Type: text/html
+
+###
+
+GET http://127.0.0.1:8080/Less4/api/v1/product/all
+
+###
+
+GET http://127.0.0.1:8080/Less4/api/v1/product/findByCategoryId/1
+Content-Type: text/html
+
+###
+
+DELETE http://127.0.0.1:8080/Less4/api/v1/product/delete
+Content-Type: application/json
+
+{
+  "id": "123456",
+  "title": "Test title rest",
+  "fullDescription": "Test full description rest",
+  "price": 1000
+}
+
+###

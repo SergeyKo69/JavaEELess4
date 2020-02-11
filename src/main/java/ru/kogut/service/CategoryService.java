@@ -1,22 +1,18 @@
 package ru.kogut.service;
 
+import org.modelmapper.ModelMapper;
 import ru.kogut.model.dao.CategoryEntity;
-import ru.kogut.repository.BaseCRUDRepository;
+import ru.kogut.model.dto.CategoryDTO;
+import ru.kogut.repository.CategoryRepository;
 import ru.kogut.service.interfaces.CategoryInt;
+import ru.kogut.service.interfaces.CategoryServiceInt;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author S.Kogut on 21.01.2020
@@ -24,54 +20,42 @@ import java.util.List;
 
 @Stateless
 @TransactionAttribute
-public class CategoryService implements CategoryInt, Serializable {
+public class CategoryService implements CategoryServiceInt, Serializable {
 
-    @PersistenceContext(unitName = "ds")
-    protected EntityManager em;
+    @EJB
+    private CategoryInt categoryRepository;
+    private ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public void saveOrUpdate(CategoryEntity categoryDAO) {
-        CategoryEntity category = em.find(CategoryEntity.class, categoryDAO.getId());
-        if (category == null) {
-            em.persist(categoryDAO);
-        } else {
-            mapCategoryDAO(category, categoryDAO);
-            em.merge(category);
+    public void saveOrUpdate(CategoryDTO categoryDTO) {
+        categoryRepository.saveOrUpdate(modelMapper.map(categoryDTO, CategoryEntity.class));
+    }
+
+    @Override
+    public CategoryDTO findById(String id) {
+        CategoryEntity categoryEntity = categoryRepository.findById(id);
+        if (categoryEntity == null) {
+            return null;
         }
+         return modelMapper.map(categoryEntity, CategoryDTO.class);
     }
 
     @Override
-    public CategoryEntity findById(String id) {
-        return em.find(CategoryEntity.class, id);
+    public List<CategoryDTO> findAll() {
+        return categoryRepository.findAll().stream()
+                .map(c->modelMapper.map(c,CategoryDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<CategoryEntity> findAll() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<CategoryEntity> query  = cb.createQuery(CategoryEntity.class);
-        Root<CategoryEntity> c = query.from(CategoryEntity.class);
-        query.select(c);
-        TypedQuery<CategoryEntity> q = em.createQuery(query);
-        return q.getResultList();
+    public List<CategoryDTO> findByName(String title) {
+        return categoryRepository.findByName(title).stream()
+                .map(c->modelMapper.map(c,CategoryDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<CategoryEntity> findByName(String title) {
-        return em.createQuery("from CategoryEntity where title like ?1", CategoryEntity.class)
-                .setParameter(1, title).getResultList();
+    public void delete(CategoryDTO categoryDTO) {
+        categoryRepository.delete(modelMapper.map(categoryDTO, CategoryEntity.class));
     }
-
-    @Override
-    public void delete(CategoryEntity categoryDAO) {
-        CategoryEntity category = em.find(CategoryEntity.class, categoryDAO.getId());
-        if (category != null) {
-            em.remove(category);
-        }
-    }
-
-    public void mapCategoryDAO(CategoryEntity in, CategoryEntity out) {
-        in.setTitle(out.getTitle());
-        in.setDescription(out.getDescription());
-    }
-
 }

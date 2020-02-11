@@ -2,19 +2,15 @@ package ru.kogut.controller;
 
 import lombok.Data;
 import ru.kogut.log.Logger;
-import ru.kogut.model.dao.OrderEntity;
 import ru.kogut.model.dto.OrderDTO;
-import ru.kogut.service.OrderService;
-import ru.kogut.service.interfaces.OrderInt;
+import ru.kogut.service.interfaces.OrderServiceInt;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,21 +25,11 @@ public class OrderController implements Serializable {
     private List<OrderDTO> orderList;
 
     @EJB
-    private OrderInt orderService;
+    private OrderServiceInt orderService;
 
     @Interceptors({Logger.class})
     public void preloadOrder(ComponentSystemEvent componentSystemEvent) {
-        List<OrderEntity> orderDAOList = orderService.findAll();
-        this.orderList = new ArrayList<>();
-        orderDAOList.forEach(o->{
-            OrderDTO orderDTO = new OrderDTO();
-            orderDTO.setId(o.getId());
-            orderDTO.setDate(o.getDate());
-            orderDTO.setNumber(o.getNumber());
-            orderDTO.setComment(o.getComment());
-            orderDTO.setTotalAmount(o.getTotalAmount());
-            this.orderList.add(orderDTO);
-        });
+        this.orderList = orderService.findAll();
     }
 
     @Interceptors({Logger.class})

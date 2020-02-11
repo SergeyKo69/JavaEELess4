@@ -5,12 +5,14 @@ import ru.kogut.repository.BaseCRUDRepository;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
+import java.util.List;
 
 /**
  * @author S.Kogut on 03.02.2020
  */
-
 @Local
-@Stateless
 public interface ProductInt extends BaseCRUDRepository<String, ProductEntity> {
+
+    List<ProductEntity> findByCategoryId(String id);
+
 }
