@@ -3,6 +3,7 @@ package ru.kogut.listener;
 import lombok.NoArgsConstructor;
 import ru.kogut.model.dao.CategoryEntity;
 import ru.kogut.model.dao.ProductEntity;
+import ru.kogut.repository.ProductRepository;
 import ru.kogut.service.CategoryService;
 import ru.kogut.service.ProductService;
 import ru.kogut.service.interfaces.CategoryInt;

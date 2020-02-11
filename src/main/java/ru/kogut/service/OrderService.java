@@ -1,18 +1,17 @@
 package ru.kogut.service;
 
+import org.modelmapper.ModelMapper;
 import ru.kogut.model.dao.OrderEntity;
-import ru.kogut.repository.BaseCRUDRepository;
+import ru.kogut.model.dto.OrderDTO;
 import ru.kogut.service.interfaces.OrderInt;
+import ru.kogut.service.interfaces.OrderServiceInt;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author S.Kogut on 21.01.2020
@@ -20,53 +19,38 @@ import java.util.List;
 
 @Stateless
 @TransactionAttribute
-public class OrderService implements OrderInt, Serializable {
+public class OrderService implements OrderServiceInt, Serializable {
 
-    @PersistenceContext(unitName = "ds")
-    protected EntityManager em;
+    @EJB
+    private OrderInt orderRepository;
+    private ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public void saveOrUpdate(OrderEntity orderDAO) {
-        OrderEntity order = em.find(OrderEntity.class, orderDAO.getId());
-        if (order == null) {
-            em.persist(orderDAO);
-        } else {
-            mapOrderDAO(order, orderDAO);
-            em.merge(order);
-        }
+    public void saveOrUpdate(OrderDTO orderDTO) {
+        orderRepository.saveOrUpdate(modelMapper.map(orderDTO, OrderEntity.class));
     }
 
     @Override
-    public OrderEntity findById(String id) {
-        return em.find(OrderEntity.class, id);
+    public OrderDTO findById(String id) {
+        return modelMapper.map(orderRepository.findById(id), OrderDTO.class);
     }
 
     @Override
-    public List<OrderEntity> findAll() {
-        return em.createQuery("FROM OrderEntity", OrderEntity.class).getResultList();
-    }
-
-    //Тут пусть будет по комментарию
-    @Override
-    public List<OrderEntity> findByName(String title) {
-        return em.createQuery("from OrderEntity where comment LIKE ?1", OrderEntity.class)
-                .setParameter(1, title).getResultList();
+    public List<OrderDTO> findAll() {
+        return orderRepository.findAll().stream()
+                .map(o->modelMapper.map(o, OrderDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void delete(OrderEntity orderDAO) {
-        OrderEntity order = em.find(OrderEntity.class, orderDAO.getId());
-        if (order != null) {
-            em.remove(order);
-        }
+    public List<OrderDTO> findByName(String title) {
+        return orderRepository.findByName(title).stream()
+                .map(o->modelMapper.map(o,OrderDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public void mapOrderDAO(OrderEntity in, OrderEntity out) {
-        in.setNumber(out.getNumber());
-        in.setDate(out.getDate());
-        in.setTotalAmount(out.getTotalAmount());
-        in.setComment(out.getComment());
-        in.setOrderTabList(out.getOrderTabList());
+    @Override
+    public void delete(OrderDTO orderDTO) {
+        orderRepository.delete(modelMapper.map(orderDTO,OrderEntity.class));
     }
-
 }

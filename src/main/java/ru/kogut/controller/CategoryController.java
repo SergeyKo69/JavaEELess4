@@ -3,19 +3,15 @@ package ru.kogut.controller;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import ru.kogut.log.Logger;
-import ru.kogut.model.dao.CategoryEntity;
 import ru.kogut.model.dto.CategoryDTO;
-import ru.kogut.service.CategoryService;
-import ru.kogut.service.interfaces.CategoryInt;
+import ru.kogut.service.interfaces.CategoryServiceInt;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,16 +27,12 @@ public class CategoryController implements Serializable {
     private List<CategoryDTO> categoryList;
 
     @EJB
-    private CategoryInt categoryService;
+    private CategoryServiceInt categoryService;
     private ModelMapper modelMapper;
 
     @Interceptors({Logger.class})
     public void preloadCategory(ComponentSystemEvent componentSystemEvent) {
-        List<CategoryEntity> categoryDAOList = categoryService.findAll();
-        this.categoryList = new ArrayList<>();
-        categoryDAOList.forEach(c->{
-            this.categoryList.add(modelMapper.map(c, CategoryDTO.class));
-        });
+        this.categoryList = categoryService.findAll();
     }
 
     public CategoryController() {
@@ -67,7 +59,7 @@ public class CategoryController implements Serializable {
 
     @Interceptors({Logger.class})
     public void removeCategory(CategoryDTO removedCategoty) {
-        categoryService.delete(modelMapper.map(removedCategoty, CategoryEntity.class));
+        categoryService.delete(removedCategoty);
     }
 
     @Interceptors({Logger.class})
@@ -75,7 +67,7 @@ public class CategoryController implements Serializable {
         if (category.getId() == null || category.getId().isEmpty()) {
             category.setId(UUID.randomUUID().toString());
         }
-        categoryService.saveOrUpdate(modelMapper.map(category, CategoryEntity.class));
+        categoryService.saveOrUpdate(category);
         return "categoryList.xhtml";
     }
 

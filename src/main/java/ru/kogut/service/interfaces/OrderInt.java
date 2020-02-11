@@ -11,6 +11,5 @@ import javax.ejb.Stateless;
  */
 
 @Local
-@Stateless
 public interface OrderInt extends BaseCRUDRepository<String, OrderEntity> {
 }
