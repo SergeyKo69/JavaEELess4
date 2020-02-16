@@ -11,59 +11,51 @@
     <link href='//fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic%7CPT+Gudea:400,700,400italic%7CPT+Oswald:400,700,300'
           rel='stylesheet' id="googlefont"/>
 
-    <link rel="stylesheet" href="./css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="./css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="./css/revslider.css"/>
-    <link rel="stylesheet" href="./css/style.css"/>
-    <link rel="stylesheet" href="./css/responsive.css"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../css/revslider.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/responsive.css"/>
 
     <style id="custom-style">
 
     </style>
 </h:head>
 <h:body>
-    <f:event type="preRenderView" listener="${productController.preloadProduct}"/>
+    <f:event type="preRenderView" listener="${categoryController.preloadCategory}"/>
     <h:form>
         <div id="wrapper">
             <header id="header" class="header2">
-                <ui:include src="common/header.xhtml"/>
+                <ui:include src="../common/header.xhtml"/>
             </header>
             <section id="content">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <header class="content-title">
-                                <h2 class="title">Список продуктов</h2>
+                                <h2 class="title">Список категорий</h2>
                             </header>
                         </div><!-- End .col-md-6 -->
                         <div class="col-md-12">
-                            <h:commandLink styleClass="btn btn-custom" value="Новый Продукт" action="#{productController.newProduct}"/>
+                            <h:commandLink styleClass="btn btn-custom" value="Новая категория" action="#{categoryController.newCategory}"/>
                             <hr/>
-                            <h:dataTable id="productTab" value="#{productController.getAllProduct()}" var="item" styleClass="table cart-table">
-                                <h:column>
-                                    <f:facet name="header">Изображение</f:facet>
-                                    <h:graphicImage value="#{item.pathTitlePicture}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Категория</f:facet>
-                                    #{item.category.title}
-                                </h:column>
+                            <h:dataTable id="categoryTab" value="#{categoryController.getAllCategory()}" var="item" styleClass="table cart-table">
                                 <h:column>
                                     <f:facet name="header">Наименование</f:facet>
                                     #{item.title}
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Описание</f:facet>
-                                    #{item.fullDescription}
+                                    #{item.description}
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Р.</f:facet>
-                                    <h:commandLink styleClass="btn btn-custom" value="Р." action="#{productController.editProduct(item)}"/>
+                                    <h:commandLink styleClass="btn btn-custom" value="Р." action="#{categoryController.editCategory(item)}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">У.</f:facet>
-                                    <h:commandLink styleClass="btn btn-custom" value="X" action="#{productController.removeProduct(item)}">
-                                        <f:ajax render="productTab" event="keyup"/>
+                                    <h:commandLink styleClass="btn btn-custom" value="Р." action="#{categoryController.removeCategory(item)}">
+                                        <f:ajax render="categoryTab" event="keyup"/>
                                     </h:commandLink>
                                 </h:column>
                             </h:dataTable>
@@ -71,7 +63,7 @@
                     </div>
                 </div>
             </section>
-            <ui:include src="./common/footer.xhtml"/>
+            <ui:include src="../common/footer.xhtml"/>
         </div>
     </h:form>
 </h:body>
