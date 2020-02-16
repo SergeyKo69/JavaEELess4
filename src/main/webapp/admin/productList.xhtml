@@ -42,7 +42,7 @@
                             <h:dataTable id="productTab" value="#{productController.getAllProduct()}" var="item" styleClass="table cart-table">
                                 <h:column>
                                     <f:facet name="header">Изображение</f:facet>
-                                    <h:graphicImage value="#{item.pathTitlePicture}"/>
+                                    <h:graphicImage value="../#{item.pathTitlePicture}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Категория</f:facet>
