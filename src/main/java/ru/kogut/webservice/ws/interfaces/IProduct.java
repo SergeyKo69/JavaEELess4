@@ -2,8 +2,11 @@ package ru.kogut.webservice.ws.interfaces;
 
 import ru.kogut.model.dto.ProductDTO;
 
+import javax.annotation.security.RolesAllowed;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
 import java.util.List;
 
 /**
@@ -11,6 +14,7 @@ import java.util.List;
  */
 
 @WebService
+@RolesAllowed("ADMIN")
 public interface IProduct {
 
     @WebMethod
