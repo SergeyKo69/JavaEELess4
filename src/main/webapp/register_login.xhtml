@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>eCommerce - Административная панель</title>
@@ -21,27 +23,29 @@
     </style>
 </h:head>
 <h:body>
-    <h:form>
+    <h:form enctype="multipart/form-data">
         <div id="wrapper">
             <header id="header" class="header2">
-                <ui:include src="common/header.xhtml"/>
+                <ui:include src="/WEB-INF/header.xhtml"/>
             </header>
             <section id="content">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <header class="content-title">
-                                <h2 class="title">Административная панель</h2>
+                                <h2 class="title">Регистрация нового пользователя</h2>
                             </header>
                         </div><!-- End .col-md-6 -->
                         <div class="col-md-12">
-                            <hr/>
-                            <h:link styleClass="btn btn-custom" outcome="categoryList" value="Категории"/>
-                            <hr/>
-                            <h:link styleClass="btn btn-custom" outcome="productList" value="Товары"/>
-                            <hr/>
-                            <h:link styleClass="btn btn-custom" outcome="orderList" value="Заказы"/>
-                            <hr/>
+                            <h:outputText value="Login: "/>
+                            <br/>
+                            <h:inputText required="true" value="#{userController.login}"/>
+                            <br/>
+                            <h:outputText value="Login: "/>
+                            <br/>
+                            <h:inputText p:type="password"  value="#{userController.password}"/>
+                            <br/>
+                            <h:commandLink styleClass="btn btn-custom" value="Сохранить" action="#{userController.save}"/>
                         </div>
                     </div>
                 </div>

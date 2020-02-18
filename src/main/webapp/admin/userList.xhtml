@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>eCommerce - Административная панель</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic%7CPT+Gudea:400,700,400italic%7CPT+Oswald:400,700,300'
+          rel='stylesheet' id="googlefont"/>
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../css/revslider.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/responsive.css"/>
+
+    <style id="custom-style">
+
+    </style>
+</h:head>
+<h:body>
+    <f:event type="preRenderView" listener="${productController.preloadProduct}"/>
+    <h:form>
+        <div id="wrapper">
+            <header id="header" class="header2">
+                <ui:include src="/WEB-INF/header.xhtml"/>
+            </header>
+            <section id="content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <header class="content-title">
+                                <h2 class="title">Список пользователей</h2>
+                            </header>
+                        </div><!-- End .col-md-6 -->
+                        <div class="col-md-12">
+                            <h:commandLink styleClass="btn btn-custom" value="Новый пользователь" action="#{userController.newUser}"/>
+                            <hr/>
+                            <h:dataTable id="productTab" value="#{userController.all()}" var="item" styleClass="table cart-table">
+                                <h:column>
+                                    <f:facet name="header">Login</f:facet>
+                                    #{item.login}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Роль</f:facet>
+                                    #{item.roles}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Р.</f:facet>
+                                    <h:commandLink styleClass="btn btn-custom" value="Р." action="#{userController.editUser(item)}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">У.</f:facet>
+                                    <h:commandLink styleClass="btn btn-custom" value="X" action="#{userController.delete(item)}">
+                                        <f:ajax render="productTab" event="keyup"/>
+                                    </h:commandLink>
+                                </h:column>
+                            </h:dataTable>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <ui:include src="../common/footer.xhtml"/>
+        </div>
+    </h:form>
+</h:body>
+</html>
+

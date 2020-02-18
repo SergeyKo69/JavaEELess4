@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>eCommerce - Административная панель</title>
@@ -10,46 +10,45 @@
     <link href='//fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic%7CPT+Gudea:400,700,400italic%7CPT+Oswald:400,700,300'
           rel='stylesheet' id="googlefont"/>
 
-    <link rel="stylesheet" href="./css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="./css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="./css/revslider.css"/>
-    <link rel="stylesheet" href="./css/style.css"/>
-    <link rel="stylesheet" href="./css/responsive.css"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../css/revslider.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/responsive.css"/>
 
     <style id="custom-style">
 
     </style>
 </h:head>
 <h:body>
-    <f:event type="preRenderView" listener="${categoryController.preloadCategory}"/>
     <h:form>
         <div id="wrapper">
             <header id="header" class="header2">
-                <ui:include src="common/header.xhtml"/>
+                <ui:include src="/WEB-INF/header.xhtml"/>
             </header>
             <section id="content">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <header class="content-title">
-                                <h2 class="title">Редактирование (заведение) категории</h2>
+                                <h2 class="title">Административная панель</h2>
                             </header>
                         </div><!-- End .col-md-6 -->
                         <div class="col-md-12">
-                            <h:outputText value="Наименование: "/>
-                            <br/>
-                            <h:inputText value="#{categoryController.category.title}"/>
-                            <br/>
-                            <h:outputText value="Описание: "/>
-                            <br/>
-                            <h:inputTextarea value="#{categoryController.category.description}"/>
                             <hr/>
-                            <h:commandLink styleClass="btn btn-custom" value="Сохранить" action="#{categoryController.save}"/>
+                            <h:link styleClass="btn btn-custom" outcome="categoryList" value="Категории"/>
+                            <hr/>
+                            <h:link styleClass="btn btn-custom" outcome="productList" value="Товары"/>
+                            <hr/>
+                            <h:link styleClass="btn btn-custom" outcome="orderList" value="Заказы"/>
+                            <hr/>
+                            <h:link styleClass="btn btn-custom" outcome="userList" value="Пользователи"/>
+                            <hr/>
                         </div>
                     </div>
                 </div>
             </section>
-            <ui:include src="./common/footer.xhtml"/>
+            <ui:include src="/WEB-INF/footer.xhtml"/>
         </div>
     </h:form>
 </h:body>

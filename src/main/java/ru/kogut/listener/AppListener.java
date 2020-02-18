@@ -1,13 +1,18 @@
 package ru.kogut.listener;
 
 import lombok.NoArgsConstructor;
+import ru.kogut.enumerations.RolesEnum;
 import ru.kogut.model.dao.CategoryEntity;
 import ru.kogut.model.dao.ProductEntity;
+import ru.kogut.model.dao.RoleEntity;
+import ru.kogut.model.dao.UserEntity;
 import ru.kogut.repository.ProductRepository;
 import ru.kogut.service.CategoryService;
 import ru.kogut.service.ProductService;
 import ru.kogut.service.interfaces.CategoryInt;
 import ru.kogut.service.interfaces.ProductInt;
+import ru.kogut.service.interfaces.RoleInt;
+import ru.kogut.service.interfaces.UserInt;
 
 import javax.ejb.EJB;
 import javax.inject.Inject;
@@ -15,6 +20,9 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author S.Kogut on 21.01.2020
@@ -30,9 +38,37 @@ public class AppListener implements ServletContextListener {
     @EJB
     private ProductInt productService;
 
+    @EJB
+    private UserInt userRepository;
+
+    @EJB
+    private RoleInt roleRepository;
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 //        initProducts();
+        initUsers();
+    }
+
+    public void initUsers() {
+        List<UserEntity> temp = userRepository.findByName("admin");
+        if (temp == null || temp.size() == 0) {
+            UserEntity userAdmin = new UserEntity();
+            userAdmin.setLogin("admin");
+            userAdmin.setPassword("admin".toCharArray());
+            RoleEntity roleAdmin = new RoleEntity(Stream.of(userAdmin).collect(Collectors.toList()),RolesEnum.ADMIN);
+            userAdmin.setRoles(Stream.of(roleAdmin).collect(Collectors.toList()));
+            userRepository.saveOrUpdate(userAdmin);
+        }
+        temp = userRepository.findByName("user");
+        if (temp == null || temp.size() == 0) {
+            UserEntity user = new UserEntity();
+            user.setLogin("user");
+            user.setPassword("user".toCharArray());
+            RoleEntity roleUser = new RoleEntity(Stream.of(user).collect(Collectors.toList()),RolesEnum.USER);
+            user.setRoles(Stream.of(roleUser).collect(Collectors.toList()));
+            userRepository.saveOrUpdate(user);
+        }
     }
 
     public void initProducts() {

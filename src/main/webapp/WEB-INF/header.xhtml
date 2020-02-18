@@ -2,36 +2,16 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
-    <div id="header-top">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="header-top-right">
-                        <div class="header-text-container pull-right">
-                            <h:inputHidden rendered="#{request.getUserPrincipal() == null}">
-                                <p class="header-text">Добро пожаловать в eCommerce!</p>
-                                <p class="header-link"><a href="login">Войти</a> или <a href="register">Зарегестрироваться</a></p>
-                            </h:inputHidden>
-                            <h:inputHidden rendered="#{request.getUserPrincipal() != null}">
-                                <p class="header-text">Добро пожаловать: #{request.getUserPrincipal().name}</p>
-                                <p class="header-link"><a href="logout">Выход</a></p>
-                            </h:inputHidden>
-                        </div><!-- End .pull-right -->
-                    </div><!-- End .header-top-right -->
-                </div><!-- End .col-md-12 -->
-            </div><!-- End .row -->
-        </div><!-- End .container -->
-    </div><!-- End #header-top -->
     <div id="inner-header">
         <div class="container">
             <div class="row">
                 <div class="col-md-5 col-sm-5 col-xs-12 logo-container">
                     <h1 class="logo clearfix">
                         <span>Responsive eCommerce Template</span>
-                        <h:commandLink action="#{mainController.doIndex()}"><h:graphicImage
-                                value="images/logo2.png"
+                        <h:graphicImage
+                                value="/images/logo2.png"
                                 alt="E-Commerce" width="188"
-                                height="67"/></h:commandLink>
+                                height="67"/>
                     </h1>
                 </div><!-- End .col-md-5 -->
                 <div class="col-md-7 col-sm-7 col-xs-12 header-inner-right">

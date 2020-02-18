@@ -28,4 +28,8 @@ public class MainController {
     public String doAdministrativeProduct() {
         return "productList.xhtml";
     }
+
+    public String doAdministrativeUser() {
+        return "userList.xhtml";
+    }
 }
