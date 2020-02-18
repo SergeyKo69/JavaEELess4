@@ -18,7 +18,7 @@ import java.util.List;
  * @author S.Kogut on 10.02.2020
  */
 @RolesAllowed("ADMIN")
-@WebService(endpointInterface = "ru.kogut.webservice.ws.interfaces.IProduct")
+//@WebService(endpointInterface = "ru.kogut.webservice.ws.interfaces.IProduct")
 public class ProductWsService implements IProduct {
 
     @EJB

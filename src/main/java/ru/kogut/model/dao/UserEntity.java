@@ -3,10 +3,7 @@ package ru.kogut.model.dao;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -23,9 +20,9 @@ public class UserEntity extends  AbstractEntity {
     private String login;
 
     @Column(name = "password", nullable = false)
-    private String password;
+    private char[] password;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<RoleEntity> roles;
 
 }

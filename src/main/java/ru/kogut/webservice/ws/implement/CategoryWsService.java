@@ -16,7 +16,7 @@ import java.util.List;
  * @author S.Kogut on 10.02.2020
  */
 @RolesAllowed("ADMIN")
-@WebService(endpointInterface = "ru.kogut.webservice.ws.interfaces.ICategory")
+//@WebService(endpointInterface = "ru.kogut.webservice.ws.interfaces.ICategory")
 public class CategoryWsService implements ICategory {
 
     @EJB

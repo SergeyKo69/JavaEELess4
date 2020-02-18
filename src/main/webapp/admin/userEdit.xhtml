@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>eCommerce - Административная панель</title>
@@ -22,8 +23,8 @@
     </style>
 </h:head>
 <h:body>
-    <f:event type="preRenderView" listener="${orderController.preloadOrder}"/>
-    <h:form>
+    <f:event type="preRenderView" listener="${categoryController.preloadCategory}"/>
+    <h:form enctype="multipart/form-data">
         <div id="wrapper">
             <header id="header" class="header2">
                 <ui:include src="/WEB-INF/header.xhtml"/>
@@ -33,20 +34,29 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <header class="content-title">
-                                <h2 class="title">Список заказов</h2>
+                                <h2 class="title">Редактирование (заведение) пользователя</h2>
                             </header>
                         </div><!-- End .col-md-6 -->
                         <div class="col-md-12">
-                            <h:dataTable value="#{orderController.allOrders}" var="item" styleClass="table cart-table">
-                                <h:column>
-                                    <f:facet name="header">Дата</f:facet>
-                                    <h:outputText value="#{item.date.toString()}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Сумма</f:facet>
-                                    <h:outputText converter="javax.faces.BigDecimal" value="#{item.totalAmount}"/>
-                                </h:column>
-                            </h:dataTable>
+                            <h:outputText value="Роль: "/>
+                            <br/>
+                            <h:selectOneMenu value="#{userController.role}"
+                                             title="#{userController.role}">
+                                <f:selectItem itemLabel="Значение не выбрано .." itemValue="#{null}" />
+                                <f:selectItems value="#{userController.getRoles()}" var="role"
+                                               itemValue="#{role}" itemLabel="#{role}"/>
+                                <f:ajax/>
+                            </h:selectOneMenu>
+                            <br/>
+                            <h:outputText value="Login: "/>
+                            <br/>
+                            <h:inputText value="#{userController.userDTO.login}"/>
+                            <br/>
+                            <h:outputText value="Password: "/>
+                            <br/>
+                            <h:inputText p:type="password" value="#{userController.userDTO.password}"/>
+                            <br/>
+                            <h:commandLink styleClass="btn btn-custom" value="Сохранить" action="#{userController.createNew}"/>
                         </div>
                     </div>
                 </div>
@@ -56,3 +66,4 @@
     </h:form>
 </h:body>
 </html>
+

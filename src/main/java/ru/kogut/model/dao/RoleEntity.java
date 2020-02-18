@@ -25,4 +25,8 @@ public class RoleEntity extends AbstractEntity {
     @ManyToMany
     private List<UserEntity> users;
 
+    public RoleEntity(List<UserEntity> users, RolesEnum name) {
+        this.users = users;
+        this.name = name;
+    }
 }

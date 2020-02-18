@@ -24,7 +24,7 @@
     <h:form>
         <div id="wrapper">
             <header id="header" class="header2">
-                <ui:include src="../common/header.xhtml"/>
+                <ui:include src="/WEB-INF/header.xhtml"/>
             </header>
             <section id="content">
                 <div class="container">
@@ -42,11 +42,13 @@
                             <hr/>
                             <h:link styleClass="btn btn-custom" outcome="orderList" value="Заказы"/>
                             <hr/>
+                            <h:link styleClass="btn btn-custom" outcome="userList" value="Пользователи"/>
+                            <hr/>
                         </div>
                     </div>
                 </div>
             </section>
-            <ui:include src="../common/footer.xhtml"/>
+            <ui:include src="/WEB-INF/footer.xhtml"/>
         </div>
     </h:form>
 </h:body>

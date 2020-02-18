@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>eCommerce - Вход в систему</title>
@@ -16,65 +17,74 @@
     <link rel="stylesheet" href="../css/style.css"/>
     <link rel="stylesheet" href="../css/responsive.css"/>
 
+    <link rel="stylesheet" href="./css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="./css/revslider.css"/>
+    <link rel="stylesheet" href="./css/style.css"/>
+    <link rel="stylesheet" href="./css/responsive.css"/>
+
     <style id="custom-style">
 
     </style>
 </h:head>
 <h:body>
-    <h:form>
-        <div id="wrapper">
-            <header id="header" class="header2">
-                <ui:include src="common/header.xhtml"/>
-            </header>
+    <div id="wrapper">
+        <header id="header" class="header2">
+            <ui:include src="WEB-INF/header.xhtml"/>
+        </header>
 
-            <section id="content">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <header class="content-title">
-                                <h1 class="title">Вход или регистрация</h1>
+        <section id="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <header class="content-title">
+                            <h1 class="title">Вход или регистрация</h1>
+                            <div class="md-margin"></div><!-- space -->
+                        </header>
+
+                        <div class="row">
+
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <h2>Новый пользователь</h2>
+
+                                <p>Зарегистрированным пользователям доступны дополнительные возможности и бонусы.</p>
                                 <div class="md-margin"></div><!-- space -->
-                            </header>
+                                <a href="register_login.xhtml" class="btn btn-custom-2">Регистрация</a>
+                                <div class="lg-margin"></div><!-- space -->
+                            </div><!-- End .col-md-6 -->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <h2>Зарегистрированным пользователям</h2>
+                                <p>Если вы уже зарегестрированы, пожалуйста войдите в систему</p>
+                                <div class="xs-margin"></div>
 
-                            <div class="row">
+                                <form id="login-form" method="POST" action="j_security_check">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><span
+                                                class="input-icon input-icon-email"></span><span
+                                                class="input-text">Login&#42;</span></span>
+                                        <h:inputText type="text" name="j_username" id="j_username" class="form-control input-lg"
+                                               placeholder="Your Login" required="true"/>
+                                    </div><!-- End .input-group -->
+                                    <div class="input-group xs-margin">
+                                        <span class="input-group-addon"><span
+                                                class="input-icon input-icon-password"></span><span
+                                                class="input-text">Password&#42;</span></span>
+                                        <h:inputText p:type="password" name="j_password" id="j_password" class="form-control input-lg"
+                                               placeholder="Your Password" required="true"/>
+                                    </div><!-- End .input-group -->
+                                    <button formmethod="post" class="btn btn-custom-2">LOGIN</button>
+                                </form>
+                                <div class="sm-margin"></div><!-- space -->
+                            </div><!-- End .col-md-6 -->
 
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <h2>Новый пользователь</h2>
+                        </div><!-- End.row -->
 
-                                    <p>Зарегистрированным пользователям доступны дополнительные возможности и бонусы.</p>
-                                    <div class="md-margin"></div><!-- space -->
-                                    <a href="register-account.html" class="btn btn-custom-2">Регистрация</a>
-                                    <div class="lg-margin"></div><!-- space -->
-                                </div><!-- End .col-md-6 -->
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <h2>Зарегистрированным пользователям</h2>
-                                    <p>Если вы уже зарегестрированы, пожалуйста войдите в систему</p>
-                                    <div class="xs-margin"></div>
+                    </div><!-- End .col-md-12 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
 
-                                    <form id="login-form" method="get" action="#">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><span class="input-icon input-icon-email"></span><span class="input-text">Email&#42;</span></span>
-                                            <input type="text" class="form-control input-lg" placeholder="Your Email"/>
-                                        </div><!-- End .input-group -->
-                                        <div class="input-group xs-margin">
-                                            <span class="input-group-addon"><span class="input-icon input-icon-password"></span><span class="input-text">Password&#42;</span></span>
-                                            <input type="password" class="form-control input-lg" placeholder="Your Password"/>
-                                        </div><!-- End .input-group -->
-                                        <button class="btn btn-custom-2">LOGIN</button>
-                                    </form>
-                                    <div class="sm-margin"></div><!-- space -->
-                                </div><!-- End .col-md-6 -->
-
-                            </div><!-- End.row -->
-
-                        </div><!-- End .col-md-12 -->
-                    </div><!-- End .row -->
-                </div><!-- End .container -->
-
-            </section><!-- End #content -->
-
-        </div><!-- End #wrapper -->
-    </h:form>
-
+        </section><!-- End #content -->
+        <ui:include src="/WEB-INF/footer.xhtml"/>
+    </div><!-- End #wrapper -->
 </h:body>
 </html>

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import ru.kogut.enumerations.RolesEnum;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author S.Kogut on 16.02.2020
@@ -16,5 +17,5 @@ public class RoleDTO  implements Serializable {
 
     private String id;
 
-    private RolesEnum rolesEnum;
+    private RolesEnum name;
 }

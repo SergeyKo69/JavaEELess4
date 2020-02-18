@@ -22,7 +22,7 @@
     </style>
 </h:head>
 <h:body>
-    <f:event type="preRenderView" listener="${orderController.preloadOrder}"/>
+    <f:event type="preRenderView" listener="${productController.preloadProduct}"/>
     <h:form>
         <div id="wrapper">
             <header id="header" class="header2">
@@ -33,18 +33,30 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <header class="content-title">
-                                <h2 class="title">Список заказов</h2>
+                                <h2 class="title">Список пользователей</h2>
                             </header>
                         </div><!-- End .col-md-6 -->
                         <div class="col-md-12">
-                            <h:dataTable value="#{orderController.allOrders}" var="item" styleClass="table cart-table">
+                            <h:commandLink styleClass="btn btn-custom" value="Новый пользователь" action="#{userController.newUser}"/>
+                            <hr/>
+                            <h:dataTable id="productTab" value="#{userController.all()}" var="item" styleClass="table cart-table">
                                 <h:column>
-                                    <f:facet name="header">Дата</f:facet>
-                                    <h:outputText value="#{item.date.toString()}"/>
+                                    <f:facet name="header">Login</f:facet>
+                                    #{item.login}
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">Сумма</f:facet>
-                                    <h:outputText converter="javax.faces.BigDecimal" value="#{item.totalAmount}"/>
+                                    <f:facet name="header">Роль</f:facet>
+                                    #{item.roles}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Р.</f:facet>
+                                    <h:commandLink styleClass="btn btn-custom" value="Р." action="#{userController.editUser(item)}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">У.</f:facet>
+                                    <h:commandLink styleClass="btn btn-custom" value="X" action="#{userController.delete(item)}">
+                                        <f:ajax render="productTab" event="keyup"/>
+                                    </h:commandLink>
                                 </h:column>
                             </h:dataTable>
                         </div>
@@ -56,3 +68,4 @@
     </h:form>
 </h:body>
 </html>
+
